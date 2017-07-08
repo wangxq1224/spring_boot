@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<contextName>mySpringBoot</contextName>
+
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	
+    <property name="LOG_PATH" value="D:" />
+    <property name="ROOT_LEVEL" value="INFO" />
+	
+		<!-- 测试环境、开发环境日志配置 -->
+	<springProfile name="test,dev">
+		<logger name="org.springframework" level="WARN" />
+		<logger name="com.demo" level="DEBUG" />
+		<property name="LOG_PATH" value="D:" />
+        <property name="ROOT_LEVEL" value="INFO" />
+	</springProfile>
+
+
+	<!-- 生产环境 日志配置-->
+	<springProfile name="prod">
+		<logger name="org.springframework" level="ERROR" />
+		<logger name="com.demo" level="ERROR" />
+		<property name="LOG_PATH" value="D:" />
+        <property name="ROOT_LEVEL" value="WARN" />
+	</springProfile>
+	
+	
+	<!-- console日志输出，输出级别等同于root -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 基于日期的文件日志，输出级别等同于root -->
+	<appender name="FILE"	class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/log.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>90</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 基于日期的文件日志，输出级别为ERROR，只记录error日志，便于查看 -->
+	<appender name="ERRFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/errlog.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>90</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${FILE_LOG_PATTERN}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+		<root level="${ROOT_LEVEL}">
+			<appender-ref ref="STDOUT" />
+			<appender-ref ref="FILE" />
+			<appender-ref ref="ERRFILE" />
+		</root>
+
+
+
+</configuration>

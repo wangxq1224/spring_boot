@@ -1,0 +1,41 @@
+#配置激活的profiles
+spring:
+      profiles:
+              active: dev
+
+#日志设置
+               
+          
+#通用配置、默认配置              
+redis: 
+  host: 192.168.5.110 
+  port: 6379
+ 
+ 
+#profiles  dev 
+---
+spring:
+      profiles: dev
+      
+redis: 
+  host: 192.168.5.227 
+  port: 6379
+
+#profiles  test  
+---
+spring:
+      profiles: dev
+      
+redis: 
+  host: 192.168.5.227 
+  port: 6379
+  
+  
+#profiles prod     
+---
+spring:
+      profiles: prod
+      
+redis: 
+  host: 192.168.5.229 
+  port: 6379
