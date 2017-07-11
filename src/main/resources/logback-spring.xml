@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 配置logback日志，设置60s扫描一次配置 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-	<contextName>mySpringBoot</contextName>
 
+	<contextName>mySpringBoot</contextName>
+	<!-- 引入基础配置 -->
 	<include resource="org/springframework/boot/logging/logback/base.xml" />
 	
-    <property name="LOG_PATH" value="D:" />
-    <property name="ROOT_LEVEL" value="INFO" />
-	
-		<!-- 测试环境、开发环境日志配置 -->
+	<!-- 设置默认的property -->
+	<property name="LOG_PATH" value="D:" />
+	<property name="ROOT_LEVEL" value="INFO" />
+
+	<!-- 测试环境、开发环境日志配置 -->
 	<springProfile name="test,dev">
 		<logger name="org.springframework" level="WARN" />
 		<logger name="com.demo" level="DEBUG" />
 		<property name="LOG_PATH" value="D:" />
-        <property name="ROOT_LEVEL" value="INFO" />
+		<property name="ROOT_LEVEL" value="INFO" />
 	</springProfile>
 
 
-	<!-- 生产环境 日志配置-->
+	<!-- 生产环境 日志配置 -->
 	<springProfile name="prod">
 		<logger name="org.springframework" level="ERROR" />
 		<logger name="com.demo" level="ERROR" />
-		<property name="LOG_PATH" value="D:" />
-        <property name="ROOT_LEVEL" value="WARN" />
+		<property name="LOG_PATH" value="/home/xxx/logs" />
+		<property name="ROOT_LEVEL" value="WARN" />
 	</springProfile>
-	
-	
+
+
 	<!-- console日志输出，输出级别等同于root -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
@@ -33,7 +36,7 @@
 	</appender>
 
 	<!-- 基于日期的文件日志，输出级别等同于root -->
-	<appender name="FILE"	class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/log.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>90</maxHistory>
@@ -52,6 +55,7 @@
 		<encoder>
 			<pattern>${FILE_LOG_PATTERN}</pattern>
 		</encoder>
+		<!-- 过滤ERROR日志 -->
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
 			<level>ERROR</level>
 			<onMatch>ACCEPT</onMatch>
@@ -59,12 +63,10 @@
 		</filter>
 	</appender>
 
-		<root level="${ROOT_LEVEL}">
-			<appender-ref ref="STDOUT" />
-			<appender-ref ref="FILE" />
-			<appender-ref ref="ERRFILE" />
-		</root>
-
-
+	<root level="${ROOT_LEVEL}">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="ERRFILE" />
+	</root>
 
 </configuration>

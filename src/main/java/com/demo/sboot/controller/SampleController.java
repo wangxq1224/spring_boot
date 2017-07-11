@@ -15,10 +15,11 @@ public class SampleController {
 	@Autowired
 	private RedisSetting redisSetting;
 
-    @RequestMapping("/")
+    @RequestMapping("/test")
     @ResponseBody
     String home() {
     	System.out.println(redisSetting.getHost()+"  "+redisSetting.getPort());
+    	System.out.println("".substring(1,2));
         return "Hello World!";
     }
 
