@@ -11,47 +11,50 @@ spring:
               addMappings: false                           #阻止SpringBoot为工程的资源文件建立映射
  
           
-           
-redis:                                                     #默认redis配置
-  host: 192.168.5.110 
-  port: 6379
+      http: 
+              encoding: 
+                       force: true
+                       charset: UTF-8                      # Charset of HTTP requests and responses
+                       enabled: true                       # Enable http encoding support
+
+                       
+                        
  
  
 #profiles  dev 
 ---
 spring:
       profiles: dev
+      datasource: 
+                url: jdbc:mysql://127.0.0.1:3306/test
+                driver-class-name: com.mysql.jdbc.Driver  
+                username: root
+                password: 
+      redis: 
+                database: 0                                 #指定数据库
+                host: 192.168.5.227
+                port: 6379
+                password: 
+                pool: 
+                         max-active: 8                       #最大连接数
+                         max-wait: -1                        #连接池最大阻塞等待时间  -1表示没有限制
+                         max-idle: 8                         #最大空闲连接
+                         min-idle: 0                         #最小空闲连接
+                         timeout: 5000                       #连接超时时间  ms
+
+mybatis: 
+      configLocation: classpath:mybatis/mybatis-config.xml
+      mapperLocations: classpath:mybatis/mapper/*.xml   
       
-redis: 
-  host: 192.168.5.227 
-  port: 6379
-  
 server:
       tomcat:
               basedir:   ./
-
+      port: 8080
+      
 #profiles  test  
 ---
-spring:
-      profiles: dev
-      
-redis: 
-  host: 192.168.5.227 
-  port: 6379
-  
-server:
-      tomcat:
-              basedir:   
+
                 
 #profiles prod     
 ---
-spring:
-      profiles: prod
-      
-redis: 
-  host: 192.168.5.229 
-  port: 6379
-  
-server:
-      tomcat:
-              basedir:   /home/xxx
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"  
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="true" /><!-- 全局性的启用或者禁用所有在mapper配置文件中配置的缓存，默认true -->
+		<setting name="lazyLoadingEnabled" value="true" /><!-- 全局性的启用或禁用延迟加载，禁用时所有关联的配置都将立即加载，默认true -->
+		<setting name="aggressiveLazyLoading" value="true" /><!-- 启用时，一个延迟加载的对象的任何一个延迟属性被加载时，所有属性都会被加载；否则，按需加载，默认true -->
+		<setting name="multipleResultSetsEnabled" value="true" /><!-- 允许或禁止从单一语句返回多个结果集，默认true -->
+		<setting name="useColumnLabel" value="true" /><!-- 使用列的标签而不是列的名称，默认true -->
+		<setting name="useGeneratedKeys" value="true" /><!-- 允许JDBC自动生成主键，默认true -->
+		<setting name="autoMappingBehavior" value="PARTIAL" /><!-- 指定mybatis将列映射到字段的方式，NONE: PARTIAL：自动映射简单、非嵌套的结果集；FULL:自动映射任何复杂的结果集,默认PARTIAL -->
+		<setting name="defaultExecutorType" value="REUSE" /><!-- 默认的执行器，SIMPLE：简单的执行器 REUSE：重用prepared statements的执行器 BATCH：重用statements并进行批量更新的执行器，默认simple -->
+		<setting name="defaultStatementTimeout" value="25000" /><!-- 查询数据库超时时间 -->
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.demo.sboot.page.Page" alias="Page" />
+		<typeAlias type="com.demo.sboot.page.DataMap" alias="Datamap" />
+		<typeAlias type="com.demo.sboot.entity.po.User" alias="User" />
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.demo.sboot.page.PagePlugin">
+			<property name="dialect" value="mysql" /><!-- oracle   mysql -->
+			<property name="pageSqlId" value=".*listByPage.*" />
+		</plugin>
+	</plugins>
+
+</configuration>

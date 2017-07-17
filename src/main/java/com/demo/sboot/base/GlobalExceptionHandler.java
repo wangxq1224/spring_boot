@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
 	public Object defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+		e.printStackTrace();
 		return "{\"error\":\"异常信息\"}";
 	}
 
